@@ -136,7 +136,7 @@ def _construct_pytest_args() -> Iterable[str]:
 @jeeves.command()
 def test():
     """Unit test code."""
-    run('pytest', *_construct_pytest_args(), **kwargs)
+    run('pytest', *_construct_pytest_args(), 'tests', **kwargs)
 
 
 def _construct_isort_args() -> Iterable[LinterArgument]:
