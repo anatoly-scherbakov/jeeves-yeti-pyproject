@@ -30,3 +30,10 @@ plumbum = "^1.8.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[tool.flakeheaven.exceptions."jeeves_yeti_pyproject/__init__.py"]
+pyflakes = [
+    # %s imported but unused
+    "-F401",
+]

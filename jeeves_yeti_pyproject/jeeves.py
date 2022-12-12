@@ -1,12 +1,9 @@
-from jeeves_shell import Jeeves
-
-
 import itertools
 import sys
 from pathlib import Path
-from typing import List, Iterable
+from typing import List, Iterable, Union, Tuple
 
-import more_itertools
+from jeeves_shell import Jeeves
 from plumbum.cmd import poetry, isort
 
 run = poetry['run']
@@ -17,6 +14,8 @@ jeeves = Jeeves(
     no_args_is_help=True,
 )
 
+LinterArgument = Union[str, Tuple[str, Union[str, int]]]
+
 LINE_LENGTH = 80
 
 
@@ -24,11 +23,9 @@ def _directories_with_a_file_in_them(pattern: str) -> List[Path]:
     return [
         sub_directory
         for sub_directory in Path.cwd().iterdir()
-        if sub_directory.is_dir()
-           and more_itertools.first_true(
-            sub_directory.glob(pattern),
-        )
+        if sub_directory.is_dir() and list(sub_directory.glob(pattern))
     ]
+
 
 def _python_directories() -> List[Path]:
     return _directories_with_a_file_in_them('*.py')
@@ -63,7 +60,7 @@ def _construct_mypy_flags() -> Iterable[str]:
     yield '--warn-unreachable'
 
 
-def _construct_flake8_args() -> Iterable[str]:
+def _construct_flake8_args() -> Iterable[LinterArgument]:
     """
     Base flake8 configuration.
 
@@ -142,7 +139,7 @@ def test():
     run('pytest', *_construct_pytest_args(), **kwargs)
 
 
-def _construct_isort_args() -> Iterable[str]:
+def _construct_isort_args() -> Iterable[LinterArgument]:
     """
     Isort configuration.
 
