@@ -45,7 +45,7 @@ def construct_pytest_args() -> Iterable[str]:
     yield '--cov={}'.format(
         ','.join(
             map(str, python_packages()),
-        )
+        ),
     )
     yield '--cov-report=term:skip-covered'
     yield '--cov-report=html'

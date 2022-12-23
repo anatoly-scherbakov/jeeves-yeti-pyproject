@@ -5,6 +5,7 @@ from pathlib import Path
 import sh
 import tomlkit
 import typer
+from sh.contrib import git
 
 logger = logging.getLogger('jeeves-yeti-pyproject:flakeheaven')
 
@@ -38,6 +39,8 @@ def call(project_directory: Path):
 
         try:
             sh.poetry.run.flakeheaven.lint(
+                git.diff('origin/master'),
+                '--diff',
                 '--config',
                 config,
                 '.',
