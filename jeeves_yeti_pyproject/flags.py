@@ -10,7 +10,7 @@ CLIParameter = Union[str, Tuple[str, CLIValue]]
 LINE_LENGTH = 80
 
 
-def construct_mypy_flags() -> Iterable[str]:
+def construct_mypy_flags() -> Iterable[str]:   # noqa: WPS213
     """
     Mypy configuration.
 
@@ -20,7 +20,7 @@ def construct_mypy_flags() -> Iterable[str]:
     # FIXME: Change to an overridable config file.
     """
     yield '--disallow-redefinition'
-    yield '--check-untyped-defs'
+    yield '--check-untyped-defs'   # noqa: WPS354
     yield '--disallow-any-explicit'
     yield '--disallow-any-generics'
     yield '--disallow-untyped-calls'
@@ -37,7 +37,16 @@ def construct_mypy_flags() -> Iterable[str]:
     yield '--warn-unreachable'
 
 
-def construct_pytest_args() -> Iterable[str]:
+def construct_pytest_args() -> Iterable[str]:   # noqa: WPS213
+    """
+    Args for pytest.
+
+    # FIXME:
+    #   title: Replace `construct_pytest_args` with an overridable config
+    #   description: Arguments for pytest are hardcoded. A few of them are
+    #   generated and will stay that way, but at least partially we should be
+    #   able to override the arguments.
+    """
     yield '--strict-markers'
     yield '--strict-config'
     yield '--tb=short'

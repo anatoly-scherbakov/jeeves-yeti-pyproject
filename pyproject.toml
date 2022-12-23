@@ -33,8 +33,9 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
-[tool.flakehell.exceptions."jeeves_yeti_pyproject/flags.py"]
+[tool.flakehell.exceptions."**/flags.py"]
 wemake-python-styleguide = [
     # Found consecutive `yield` expressions
     "-WPS354",
+    "-WPS213",
 ]
