@@ -1,0 +1,77 @@
+# DISCLAIMER
+# This file has been copied from:
+#   https://raw.githubusercontent.com/wemake-services/wemake-python-styleguide/master/styles/flakeheaven.toml
+#
+# `flakeheaven` specific configuration.
+# This file is served as `base` config under `[tool.flakeheaven]`
+
+# Make sure to install it with:
+# `pip install flakeheaven`
+
+# See:
+# https://wemake-python-styleguide.rtfd.io/en/latest/pages/usage/integrations/flakeheaven.html
+
+[tool.flakeheaven]
+format = "grouped"
+show_source = true
+statistics = false
+doctests = true
+enable_extensions = "G"
+
+accept_encodings = "utf-8"
+max_complexity = 6
+max_line_length = 80
+
+ignore = "D100, D104, D401, W504, RST303, RST304, DAR103, DAR203"
+
+[tool.flakeheaven.plugins]
+"flake8-*" = ["+*"]
+flake8-docstrings = [
+    "+*",
+
+    # Docstring for a module
+    "-D100",
+
+    # Missing docstring in public package
+    "-D104",
+]
+flake8-darglint = [
+    "+*",
+
+    # Missing parameter(s) in Docstring: %s
+    "-DAR101",
+
+    # Missing "Returns" in Docstring
+    "-DAR201",
+
+    # Missing exception(s) in Raises section
+    "-DAR401",
+
+    # Missing "Yields" in Docstring
+    "-DAR301",
+]
+mccabe = ["+*"]
+"pep8-naming" = ["+*"]
+pycodestyle = ["+*"]
+pyflakes = ["+*"]
+"wemake-python-styleguide" = [
+    "+*",
+
+    # Found walrus operator
+    "-WPS332",
+
+    # Found `__init__.py` module with logic
+    # I only have imports there and it complains. How do I expose stuff otherwise?
+    "-WPS412",
+
+    # Found `%` string formatting
+    # Required for logging.
+    "-WPS323",
+]
+
+
+[tool.flakeheaven.exceptions."**/__init__.py"]
+pyflakes = [
+    # %s imported but unused. This happens all the time in __init__.py files.
+    "-F401",
+]

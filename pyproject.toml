@@ -25,15 +25,15 @@ wemake-python-styleguide = "^0.17.0"
 flakeheaven = "^3.2.1"
 rich = "^12.6.0"
 tomlkit = "^0.11.6"
-plumbum = "^1.8.0"
+sh = "^1.14.3"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
-[tool.flakeheaven.exceptions."jeeves_yeti_pyproject/__init__.py"]
-pyflakes = [
-    # %s imported but unused
-    "-F401",
+[tool.flakehell.exceptions."jeeves_yeti_pyproject/flags.py"]
+wemake-python-styleguide = [
+    # Found consecutive `yield` expressions
+    "-WPS354",
 ]

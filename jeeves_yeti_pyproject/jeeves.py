@@ -1,164 +1,59 @@
 import itertools
-import sys
 from pathlib import Path
-from typing import List, Iterable, Union, Tuple
 
 from jeeves_shell import Jeeves
-from plumbum.cmd import poetry, isort
+from sh import isort, poetry
 
-run = poetry['run']
-kwargs = {'stdout': sys.stdout, 'stderr': sys.stderr}
+from jeeves_yeti_pyproject import flakeheaven
+from jeeves_yeti_pyproject.files_and_directories import python_directories
+from jeeves_yeti_pyproject.flags import (construct_isort_args,
+                                         construct_mypy_flags,
+                                         construct_pytest_args)
+
+run = poetry.run
 
 jeeves = Jeeves(
     help='Manage a Python project.',
     no_args_is_help=True,
 )
 
-LinterArgument = Union[str, Tuple[str, Union[str, int]]]
-
-LINE_LENGTH = 80
-
-
-def _directories_with_a_file_in_them(pattern: str) -> List[Path]:
-    return [
-        sub_directory
-        for sub_directory in Path.cwd().iterdir()
-        if sub_directory.is_dir() and list(sub_directory.glob(pattern))
-    ]
-
-
-def _python_directories() -> List[Path]:
-    return _directories_with_a_file_in_them('*.py')
-
-
-def _python_packages() -> List[Path]:
-    return _directories_with_a_file_in_them('__init__.py')
-
-
-def _construct_mypy_flags() -> Iterable[str]:
-    """
-    Mypy configuration.
-
-    - http://bit.ly/2zEl9WI
-    - Source: wemake-python-package.
-    """
-    yield '--disallow-redefinition'
-    yield '--check-untyped-defs'
-    yield '--disallow-any-explicit'
-    yield '--disallow-any-generics'
-    yield '--disallow-untyped-calls'
-    yield '--ignore-missing-imports'
-    yield '--implicit-reexport'
-    yield '--local-partial-types'
-    yield '--strict-optional'
-    yield '--strict-equality'
-    yield '--no-implicit-optional'
-    yield '--warn-no-return'
-    yield '--warn-unused-ignores'
-    yield '--warn-redundant-casts'
-    yield '--warn-unused-configs'
-    yield '--warn-unreachable'
-
-
-def _construct_flake8_args() -> Iterable[LinterArgument]:
-    """
-    Base flake8 configuration.
-
-    https://flake8.pycqa.org/en/latest/user/configuration.html
-    Source: wemake-python-styleguide.
-    """
-    yield '--format', 'wemake'
-
-    yield '--show-source'
-    yield '--doctests'
-
-    # Darglint: https://github.com/terrencepreilly/darglint
-    yield '--strictness', 'long'
-    yield '--docstring-style', 'numpy'
-
-    # Plugins
-    yield '--max-complexity', 6
-    yield '--max-line-length', LINE_LENGTH
-
-    yield '--i-control-code'
-
 
 @jeeves.command()
 def lint():
     """Lint code."""
-    directories = _python_directories()
+    directories = python_directories()
 
-    run(
-        'mypy',
+    run.mypy(
         *directories,
-        *_construct_mypy_flags(),
-        **kwargs,
+        *construct_mypy_flags(),
     )
 
-    run(
-        'flakeheaven', 'lint',
-        *directories,
-        *itertools.chain(
-            _construct_flake8_args(),
-        ),
-        **kwargs,
+    flakeheaven.call(
+        project_directory=Path.cwd(),
     )
 
-    poetry('check', **kwargs)
+    poetry.check()
 
     # We do not write anything to stdout here
-    run('pip', 'check', stderr=sys.stderr)
+    run.pip.check()
 
 
 @jeeves.command()
 def safety():
     """Check installed Python packages for vulnerabilities."""
-    run('safety', 'check', '--full-report', **kwargs)
-
-
-def _construct_pytest_args() -> Iterable[str]:
-    yield '--strict-markers'
-    yield '--strict-config'
-    yield '--tb=short'
-    yield '--doctest-modules'
-    yield '--cov={}'.format(
-        ','.join(
-            map(str, _python_packages()),
-        )
-    )
-    yield '--cov-report=term:skip-covered'
-    yield '--cov-report=html'
-    yield '--cov-report=xml'
-    yield '--cov-branch'
-    yield '--cov-fail-under=100'
+    run.safety.check(full_report=True)
 
 
 @jeeves.command()
 def test():
     """Unit test code."""
-    run('pytest', *_construct_pytest_args(), 'tests', **kwargs)
-
-
-def _construct_isort_args() -> Iterable[LinterArgument]:
-    """
-    Isort configuration.
-
-    https://github.com/timothycrosley/isort/wiki/isort-Settings
-    See https://github.com/timothycrosley/isort#multi-line-output-modes
-
-    Source: wemake-python-styleguide.
-    """
-    yield '--trailing-comma'
-    yield '--use-parentheses'
-    yield '--multi-line', 'VERTICAL_HANGING_INDENT'
-    yield '--line-length', LINE_LENGTH
+    run('pytest', *construct_pytest_args(), 'tests')
 
 
 @jeeves.command()
 def fmt():
     """Auto format code."""
     isort(
-        *_python_directories(),
-        *_construct_isort_args(),
-        **kwargs,
+        *itertools.chain(construct_isort_args()),
+        '.',
     )
