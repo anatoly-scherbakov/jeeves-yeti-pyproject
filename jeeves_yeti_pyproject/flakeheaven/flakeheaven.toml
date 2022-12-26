@@ -76,6 +76,10 @@ pyflakes = ["+*"]
     # Found `%` string formatting
     # Required for logging.
     "-WPS323",
+
+    # Found f-string
+    # f-strings are cool if to use them responsibly, let's not just forbid them all.
+    "-WPS305"
 ]
 
 
