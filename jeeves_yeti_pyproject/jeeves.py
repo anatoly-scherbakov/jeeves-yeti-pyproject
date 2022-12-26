@@ -3,15 +3,15 @@ from pathlib import Path
 
 from jeeves_shell import Jeeves
 from sh import add_trailing_comma, isort, poetry
-from sh.contrib import git
 
 from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.files_and_directories import python_directories
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
-    construct_mypy_flags,
     construct_pytest_args,
 )
+from jeeves_yeti_pyproject.mypy import invoke_mypy
+from jeeves_yeti_pyproject.diff import list_changed_files
 
 run = poetry.run
 
@@ -26,10 +26,7 @@ def lint():
     """Lint code."""
     directories = python_directories()
 
-    run.mypy(
-        *directories,
-        *construct_mypy_flags(),
-    )
+    invoke_mypy(directories)
 
     flakeheaven.call(
         project_directory=Path.cwd(),
@@ -61,15 +58,7 @@ def fmt():
         '.',
     )
 
-    changed_files = list(
-        filter(
-            bool,
-            git.diff(
-                '--name-only',
-                'origin/master',
-            ).stdout.decode().split('\n'),
-        ),
-    )
+    changed_files = list_changed_files()
     add_trailing_comma(
         '--py36-plus',
         *changed_files,

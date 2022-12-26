@@ -636,14 +636,14 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "jeeves-shell"
-version = "2.0.1"
+version = "2.1.0"
 description = "Pythonic replacement for GNU Make"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "jeeves_shell-2.0.1-py3-none-any.whl", hash = "sha256:e0f005a44f603c30957e85f2421dcbc4ff5dde7f7db9077187ac75b6cfcd238f"},
-    {file = "jeeves_shell-2.0.1.tar.gz", hash = "sha256:c6886381686bb06ede1cd6ad7db93535d39cff7e15f6cf0cc53833f31afc3f8b"},
+    {file = "jeeves_shell-2.1.0-py3-none-any.whl", hash = "sha256:a0cdffc9042fcbe73cce9de179d63657221f03c74a26343d3b5f52a16c2f878c"},
+    {file = "jeeves_shell-2.1.0.tar.gz", hash = "sha256:95a174eceeb16fbd5df434d2a7669b6ae104788fa7ae85ee57e2ca0a7e071cac"},
 ]
 
 [package.dependencies]
@@ -1244,4 +1244,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.8,<4.0"
-content-hash = "ed70946055f2714c5f653fc82828aebdcac0ade915b9e1a00ea2b901d0b1dcbd"
+content-hash = "1732eb5aa62ee0a73311db1e9d4fa5610da5de18b51ed6fecae3bb6124c5a739"

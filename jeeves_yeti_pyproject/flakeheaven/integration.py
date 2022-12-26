@@ -2,9 +2,9 @@ import logging
 import tempfile
 from pathlib import Path
 
-import sh
 import tomlkit
 import typer
+from sh import poetry, ErrorReturnCode_1
 from sh.contrib import git
 
 logger = logging.getLogger('jeeves-yeti-pyproject:flakeheaven')
@@ -38,7 +38,7 @@ def call(project_directory: Path):
         logger.debug('Transient config for flakeheaven: %s', config_content)
 
         try:
-            sh.poetry.run.flakeheaven.lint(
+            poetry.run.flakeheaven.lint(
                 git.diff('origin/master'),
                 '--diff',
                 '--config',
@@ -46,6 +46,6 @@ def call(project_directory: Path):
                 '.',
                 _cwd=project_directory,
             )
-        except sh.ErrorReturnCode_1 as err:
+        except ErrorReturnCode_1 as err:
             typer.echo(err.stdout)
             raise typer.Exit(code=1) from err
