@@ -3,7 +3,7 @@ from pathlib import Path
 
 import typer
 from jeeves_shell import Jeeves
-from sh import ErrorReturnCode_1, add_trailing_comma, isort, poetry
+from sh import ErrorReturnCode_2, add_trailing_comma, isort, poetry
 
 from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.diff import (
@@ -53,7 +53,7 @@ def test():
     """Unit test code."""
     try:
         run('pytest', *construct_pytest_args(), 'tests')
-    except ErrorReturnCode_1 as err:
+    except ErrorReturnCode_2 as err:
         typer.echo(err.stdout)
 
 
