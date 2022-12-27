@@ -1,17 +1,21 @@
 import itertools
 from pathlib import Path
 
+import typer
 from jeeves_shell import Jeeves
-from sh import add_trailing_comma, isort, poetry
+from sh import ErrorReturnCode_1, add_trailing_comma, isort, poetry
 
 from jeeves_yeti_pyproject import flakeheaven
+from jeeves_yeti_pyproject.diff import (
+    changed_and_existing_files,
+    list_changed_files,
+)
 from jeeves_yeti_pyproject.files_and_directories import python_directories
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
     construct_pytest_args,
 )
 from jeeves_yeti_pyproject.mypy import invoke_mypy
-from jeeves_yeti_pyproject.diff import list_changed_files
 
 run = poetry.run
 
@@ -47,7 +51,10 @@ def safety():
 @jeeves.command()
 def test():
     """Unit test code."""
-    run('pytest', *construct_pytest_args(), 'tests')
+    try:
+        run('pytest', *construct_pytest_args(), 'tests')
+    except ErrorReturnCode_1 as err:
+        typer.echo(err.stdout)
 
 
 @jeeves.command()
@@ -58,8 +65,10 @@ def fmt():
         '.',
     )
 
-    changed_files = list_changed_files()
+    files_to_format = changed_and_existing_files(
+        list_changed_files(),
+    )
     add_trailing_comma(
         '--py36-plus',
-        *changed_files,
+        *files_to_format,
     )

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import tomlkit
 import typer
-from sh import poetry, ErrorReturnCode_1
+from sh import ErrorReturnCode_1, poetry
 from sh.contrib import git
 
 logger = logging.getLogger('jeeves-yeti-pyproject:flakeheaven')

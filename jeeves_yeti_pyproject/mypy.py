@@ -2,11 +2,9 @@ from typing import Iterable
 
 import more_itertools
 import typer
+from sh import ErrorReturnCode_1, poetry
 
 from jeeves_yeti_pyproject.diff import list_changed_files
-
-from sh import poetry, ErrorReturnCode_1
-
 
 run = poetry.run
 
