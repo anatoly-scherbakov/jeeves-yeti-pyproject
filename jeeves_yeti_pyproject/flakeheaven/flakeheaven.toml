@@ -79,7 +79,11 @@ pyflakes = ["+*"]
 
     # Found f-string
     # f-strings are cool if to use them responsibly, let's not just forbid them all.
-    "-WPS305"
+    "-WPS305",
+
+    # Found class without a base class
+    # Nikita Sobolev wants us to always `SubclassFrom(object)` but we will blatantly disobey.
+    "-WPS306",
 ]
 
 
