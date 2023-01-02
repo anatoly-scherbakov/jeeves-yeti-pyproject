@@ -99,3 +99,13 @@ flake8-bandit = [
     # Use of assert detected
     "-S101",
 ]
+flake8-docstrings = [
+    # Missing docstring in public function
+    # Docstrings aren't always strictly necessary for tests. Tests are rarely being reviewed.
+    "-D103",
+]
+"wemake-python-styleguide" = [
+    # Found too many local variables
+    # Many variables in a test might be there because they're explanatory variables. Again, we do not review tests.
+    "-WPS210",
+]
