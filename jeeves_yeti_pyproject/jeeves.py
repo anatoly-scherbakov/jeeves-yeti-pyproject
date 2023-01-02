@@ -1,9 +1,10 @@
 import itertools
 from pathlib import Path
+from typing import List, Optional
 
 import typer
 from jeeves_shell import Jeeves
-from sh import ErrorReturnCode_2, add_trailing_comma, isort, poetry
+from sh import ErrorReturnCode, add_trailing_comma, isort, poetry
 
 from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.diff import (
@@ -49,12 +50,18 @@ def safety():
 
 
 @jeeves.command()
-def test():
+def test(
+    paths: Optional[List[Path]] = typer.Argument(None),   # noqa: B008, WPS404
+):
     """Unit test code."""
+    if paths is None:
+        paths = [Path.cwd() / 'tests']
+
     try:
-        run('pytest', *construct_pytest_args(), 'tests')
-    except ErrorReturnCode_2 as err:
+        run('pytest', *construct_pytest_args(), *paths)
+    except ErrorReturnCode as err:
         typer.echo(err.stdout)
+        raise typer.Exit(err.exit_code)
 
 
 @jeeves.command()
