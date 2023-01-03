@@ -26,6 +26,10 @@ ignore = "D100, D104, D401, W504, RST303, RST304, DAR103, DAR203"
 
 [tool.flakeheaven.plugins]
 "flake8-*" = ["+*"]
+
+# We do not write docstrings in ReST, we stick to Markdown only.
+flake8-rst-docstrings = ["-*"]
+
 flake8-docstrings = [
     "+*",
 
@@ -94,7 +98,7 @@ pyflakes = [
 ]
 
 
-[tool.flakeheaven.exceptions."tests/**/*.py"]
+[tool.flakeheaven.exceptions."tests/**.py"]
 flake8-bandit = [
     # Use of assert detected
     "-S101",
