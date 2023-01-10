@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jeeves-yeti-pyproject"
-version = "0.2.8"
+version = "0.2.9"
 description = "Opinionated Jeeves plugin for Python projects."
 authors = ["Anatoly Scherbakov <altaisoft@gmail.com>"]
 readme = "README.md"
@@ -11,7 +11,7 @@ pyproject = "jeeves_yeti_pyproject:jeeves"
 
 
 [tool.poetry.dependencies]
-python = ">=3.8,<4.0"
+python = ">=3.9,<4.0"
 jeeves-shell = "^2.1.0"
 
 mypy = "^0.910"
@@ -27,6 +27,12 @@ rich = "^12.6.0"
 tomlkit = "^0.11.6"
 sh = "^1.14.3"
 add-trailing-comma = "^2.4.0"
+
+[tool.poetry.group.dev.dependencies]
+mkdocs = "^1.4.2"
+mkdocs-material = "^9.0.3"
+mkdocs-macros-plugin = "^0.7.0"
+mkdocs-iolanta-tables = "^1.1.13"
 
 [build-system]
 requires = ["poetry-core"]
