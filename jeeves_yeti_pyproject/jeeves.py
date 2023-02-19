@@ -79,3 +79,9 @@ def fmt():
         '--py36-plus',
         *files_to_format,
     )
+
+
+@jeeves.command()
+def clear_poetry_cache():
+    """Clear Poetry cache."""
+    poetry('cache', 'clear', 'PyPI', '--all', '--no-interaction')
