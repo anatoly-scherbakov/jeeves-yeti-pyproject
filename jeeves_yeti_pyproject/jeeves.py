@@ -61,6 +61,7 @@ def test(
         run('pytest', *construct_pytest_args(), *paths)
     except ErrorReturnCode as err:
         typer.echo(err.stdout)
+        typer.echo(err.stderr)
         raise typer.Exit(err.exit_code)
 
 
