@@ -54,7 +54,7 @@ def test(
     paths: Optional[List[Path]] = typer.Argument(None),   # noqa: B008, WPS404
 ):
     """Unit test code."""
-    if paths is None:
+    if not paths:
         paths = [Path.cwd() / 'tests']
 
     try:
