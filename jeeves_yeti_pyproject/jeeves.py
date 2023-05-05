@@ -1,16 +1,18 @@
 import itertools
+import re
 from pathlib import Path
 from typing import List, Optional
 
 import typer
 from jeeves_shell import Jeeves
-from sh import ErrorReturnCode, add_trailing_comma, isort, poetry
+from sh import ErrorReturnCode, add_trailing_comma, git, isort, poetry
 
 from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.diff import (
     changed_and_existing_files,
     list_changed_files,
 )
+from jeeves_yeti_pyproject.errors import BranchNameError
 from jeeves_yeti_pyproject.files_and_directories import python_directories
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
@@ -85,4 +87,30 @@ def fmt():
 @jeeves.command()
 def clear_poetry_cache():
     """Clear Poetry cache."""
-    poetry('cache', 'clear', 'PyPI', '--all', '--no-interaction')
+    poetry.cache.clear('PyPI', '--all', '--no-interaction')
+
+
+@jeeves.command()
+def commit(message: str):
+    """Create a commit."""
+    branch = git.branch('--show-current')
+
+    try:
+        issue_id, = re.match(
+            r'issue-(?P<issue_id>\d+)-.+',
+            branch,
+        ).groups()
+    except SyntaxError:
+        raise BranchNameError(branch=branch)
+
+    prefix = f'#{issue_id} '
+
+    message = typer.prompt(
+        text=prefix,
+        default=message or '',
+        prompt_suffix='',
+    )
+
+    formatted_message = f'{prefix}{message}'
+    typer.echo(formatted_message)
+    git.commit('-a', '-m', formatted_message)
