@@ -91,17 +91,15 @@ def clear_poetry_cache():
 
 
 @jeeves.command()
-def commit(message: str):
+def commit(message: str):   # noqa: WPS210
     """Create a commit."""
-    branch = git.branch('--show-current')
+    branch = str(git.branch('--show-current'))
 
-    try:
-        issue_id, = re.match(
-            r'issue-(?P<issue_id>\d+)-.+',
-            branch,
-        ).groups()
-    except SyntaxError:
+    match = re.match(r'issue-(?P<issue_id>\d+)-.+', branch)
+    if match is None:
         raise BranchNameError(branch=branch)
+    else:
+        issue_id = match.groups()[0]
 
     prefix = f'#{issue_id} '
 
