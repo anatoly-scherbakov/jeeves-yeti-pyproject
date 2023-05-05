@@ -2108,4 +2108,4 @@ typing_extensions = ">=4.0,<5.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "7495cfa9c5503bdf42152166b5813666b930d1f7928794bc59b20d82db5b8bdf"
+content-hash = "0860bd61a285280ef9bdd3e7deba3be79c35ca906f7cf14b85cbc814ab05b38d"
