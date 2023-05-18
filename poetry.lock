@@ -95,14 +95,14 @@ files = [
 
 [[package]]
 name = "certifi"
-version = "2022.12.7"
+version = "2023.5.7"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
 python-versions = ">=3.6"
 files = [
-    {file = "certifi-2022.12.7-py3-none-any.whl", hash = "sha256:4ad3232f5e926d6718ec31cfc1fcadfde020920e278684144551c91769c7bc18"},
-    {file = "certifi-2022.12.7.tar.gz", hash = "sha256:35824b4c3a97115964b408844d64aa14db1cc518f6562e8d7261699d1350a9e3"},
+    {file = "certifi-2023.5.7-py3-none-any.whl", hash = "sha256:c6c2e98f5c7869efca1f8916fed228dd91539f9f1b444c314c06eef02980c716"},
+    {file = "certifi-2023.5.7.tar.gz", hash = "sha256:0f0d56dc5a6ad56fd4ba36484d6cc34451e1c6548c61daad8c320169f91eddc7"},
 ]
 
 [[package]]
@@ -334,14 +334,14 @@ files = [
 
 [[package]]
 name = "docutils"
-version = "0.19"
+version = "0.20.1"
 description = "Docutils -- Python Documentation Utilities"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "docutils-0.19-py3-none-any.whl", hash = "sha256:5e1de4d849fee02c63b040a4a3fd567f4ab104defd8a5511fbbc24a8a017efbc"},
-    {file = "docutils-0.19.tar.gz", hash = "sha256:33995a6753c30b7f577febfc2c50411fec6aac7f7ffeb7c4cfe5991072dcf9e6"},
+    {file = "docutils-0.20.1-py3-none-any.whl", hash = "sha256:96f387a2c5562db4476f09f13bbab2192e764cac08ebbf3a34a95d9b1e4a59d6"},
+    {file = "docutils-0.20.1.tar.gz", hash = "sha256:f08a4e276c3a1583a86dce3e34aba3fe04d02bba2dd51ed16106244e8a923e3b"},
 ]
 
 [[package]]
@@ -861,20 +861,25 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "jeeves-shell"
-version = "2.1.5"
+version = "2.1.8"
 description = "Pythonic replacement for GNU Make"
 category = "main"
 optional = false
-python-versions = ">=3.8,<4.0"
+python-versions = ">=3.10,<4.0"
 files = [
-    {file = "jeeves_shell-2.1.5-py3-none-any.whl", hash = "sha256:bcfe5f92a6d198755d90bbf5d3c60f57206e1f632a46312f706d1dabeebaad89"},
-    {file = "jeeves_shell-2.1.5.tar.gz", hash = "sha256:753ae01c306c358f23392a4b925408bf75d4b385849f02603a47433ba764336d"},
+    {file = "jeeves_shell-2.1.8-py3-none-any.whl", hash = "sha256:104d1e9062e3fb0f3f2d146a640f9b6ae23fb9cbf5f8345988556bd7db511826"},
+    {file = "jeeves_shell-2.1.8.tar.gz", hash = "sha256:0b7a22e7d912a5d7ddbc611731669f92246ac9146517f6e70c5ba8dc44e6a427"},
 ]
 
 [package.dependencies]
 documented = ">=0.1.1,<0.2.0"
 more-itertools = ">=9.0.0,<10.0.0"
+rich = {version = ">=13.3.5,<14.0.0", optional = true, markers = "extra == \"all\""}
+sh = {version = ">=2.0.4,<3.0.0", optional = true, markers = "extra == \"all\""}
 typer = ">=0.7.0,<0.8.0"
+
+[package.extras]
+all = ["rich (>=13.3.5,<14.0.0)", "sh (>=2.0.4,<3.0.0)"]
 
 [[package]]
 name = "jinja2"
@@ -1193,14 +1198,14 @@ test = ["mkdocs-include-markdown-plugin", "mkdocs-macros-test", "mkdocs-material
 
 [[package]]
 name = "mkdocs-material"
-version = "9.1.9"
+version = "9.1.13"
 description = "Documentation that simply works"
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "mkdocs_material-9.1.9-py3-none-any.whl", hash = "sha256:7db24261cb17400e132c46d17eea712bfe71056d892a9beba32cf68210297141"},
-    {file = "mkdocs_material-9.1.9.tar.gz", hash = "sha256:74d8da1371ab3a326868fe47bae3cbc4aa22e93c048b4ca5117e6817b88bd734"},
+    {file = "mkdocs_material-9.1.13-py3-none-any.whl", hash = "sha256:5705cf8cb6c47c747606bd914bb6c01993ff141295cd259475559a1f09f07d5d"},
+    {file = "mkdocs_material-9.1.13.tar.gz", hash = "sha256:9102e7604d73e507021847601b0a8b4fe9035422788390183f464fa3b30dd508"},
 ]
 
 [package.dependencies]
@@ -1454,14 +1459,14 @@ requests = ["requests"]
 
 [[package]]
 name = "pymdown-extensions"
-version = "9.11"
+version = "10.0.1"
 description = "Extension pack for Python Markdown."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "pymdown_extensions-9.11-py3-none-any.whl", hash = "sha256:a499191d8d869f30339de86fcf072a787e86c42b6f16f280f5c2cf174182b7f3"},
-    {file = "pymdown_extensions-9.11.tar.gz", hash = "sha256:f7e86c1d3981f23d9dc43294488ecb54abadd05b0be4bf8f0e15efc90f7853ff"},
+    {file = "pymdown_extensions-10.0.1-py3-none-any.whl", hash = "sha256:ae66d84013c5d027ce055693e09a4628b67e9dec5bce05727e45b0918e36f274"},
+    {file = "pymdown_extensions-10.0.1.tar.gz", hash = "sha256:b44e1093a43b8a975eae17b03c3a77aad4681b3b56fce60ce746dbef1944c8cb"},
 ]
 
 [package.dependencies]
@@ -1852,13 +1857,14 @@ testing-integration = ["build[virtualenv]", "filelock (>=3.4.0)", "jaraco.envs (
 
 [[package]]
 name = "sh"
-version = "1.14.3"
+version = "2.0.4"
 description = "Python subprocess replacement"
 category = "main"
 optional = false
-python-versions = "*"
+python-versions = ">=3.8.1,<4.0"
 files = [
-    {file = "sh-1.14.3.tar.gz", hash = "sha256:e4045b6c732d9ce75d571c79f5ac2234edd9ae4f5fa9d59b09705082bdca18c7"},
+    {file = "sh-2.0.4-py3-none-any.whl", hash = "sha256:14265a4cd1622429edcf300292ec98193530fb143fe642b3437024eca9bee8c5"},
+    {file = "sh-2.0.4.tar.gz", hash = "sha256:a18920f0839991bc9dfddb6dcc006c360b1064ba96257359f0ea356e9fa75a60"},
 ]
 
 [[package]]
@@ -1899,14 +1905,14 @@ files = [
 
 [[package]]
 name = "stevedore"
-version = "5.0.0"
+version = "5.1.0"
 description = "Manage dynamic plugins for Python applications"
 category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "stevedore-5.0.0-py3-none-any.whl", hash = "sha256:bd5a71ff5e5e5f5ea983880e4a1dd1bb47f8feebbb3d95b592398e2f02194771"},
-    {file = "stevedore-5.0.0.tar.gz", hash = "sha256:2c428d2338976279e8eb2196f7a94910960d9f7ba2f41f3988511e95ca447021"},
+    {file = "stevedore-5.1.0-py3-none-any.whl", hash = "sha256:8cc040628f3cea5d7128f2e76cf486b2251a4e543c7b938f58d9a377f6694a2d"},
+    {file = "stevedore-5.1.0.tar.gz", hash = "sha256:a54534acf9b89bc7ed264807013b505bf07f74dbe4bcfa37d32bd063870b087c"},
 ]
 
 [package.dependencies]
@@ -2108,4 +2114,4 @@ typing_extensions = ">=4.0,<5.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "0860bd61a285280ef9bdd3e7deba3be79c35ca906f7cf14b85cbc814ab05b38d"
+content-hash = "7e113511267ce90ae695371e1dc349334253d6a78674221fb1aeb71bc83ed6cc"
