@@ -861,14 +861,14 @@ requirements-deprecated-finder = ["pip-api", "pipreqs"]
 
 [[package]]
 name = "jeeves-shell"
-version = "2.1.9"
+version = "2.1.10"
 description = "Pythonic replacement for GNU Make"
 category = "main"
 optional = false
 python-versions = ">=3.10,<4.0"
 files = [
-    {file = "jeeves_shell-2.1.9-py3-none-any.whl", hash = "sha256:e4e2a6f4fcf0809f053eb7c375b0bd32180c5af41364df821b11171a1444be17"},
-    {file = "jeeves_shell-2.1.9.tar.gz", hash = "sha256:fc0eb9df08a539bfa693cfc964712c7b95f93da4963044769734b66c95b6efd9"},
+    {file = "jeeves_shell-2.1.10-py3-none-any.whl", hash = "sha256:59d934949d49638752a8505b5a7549d3526e08c40d3ef315bb25ca49155e05ca"},
+    {file = "jeeves_shell-2.1.10.tar.gz", hash = "sha256:37a4b7b342665d8be2327b8eea098ddfe3ff4c3df154c693e6216e30c3b3c095"},
 ]
 
 [package.dependencies]
@@ -2114,4 +2114,4 @@ typing_extensions = ">=4.0,<5.0"
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10,<4.0"
-content-hash = "7e113511267ce90ae695371e1dc349334253d6a78674221fb1aeb71bc83ed6cc"
+content-hash = "1241ef7408386723ff817b80174a2766bef91263101a203098fc0c11e3bbab45"
