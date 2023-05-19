@@ -12,7 +12,7 @@ def list_changed_files() -> List[str]:
             git.diff(
                 '--name-only',
                 'origin/master',
-            ).stdout.decode().split('\n'),
+            ).split('\n'),
         ),
     )
 

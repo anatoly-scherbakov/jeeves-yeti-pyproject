@@ -39,12 +39,12 @@ def call(project_directory: Path):
 
         try:
             poetry.run.flakeheaven.lint(
-                git.diff('origin/master'),
                 '--diff',
                 '--config',
                 config,
                 '.',
                 _cwd=project_directory,
+                _in=git.diff('origin/master'),
             )
         except ErrorReturnCode_1 as err:
             typer.echo(err.stdout)
