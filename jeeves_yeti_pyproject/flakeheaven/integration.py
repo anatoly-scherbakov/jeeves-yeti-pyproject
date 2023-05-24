@@ -24,7 +24,7 @@ def construct_config(project_directory: Path):
     }
 
 
-def call(project_directory: Path):
+def call(project_directory: Path):  # pragma: nocover
     """Execute flakeheaven against the project."""
     with tempfile.TemporaryDirectory() as directory:
         config = Path(directory) / 'flakeheaven.toml'

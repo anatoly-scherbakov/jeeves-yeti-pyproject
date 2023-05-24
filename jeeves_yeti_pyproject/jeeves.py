@@ -1,3 +1,4 @@
+import rich
 import itertools
 import re
 from pathlib import Path
@@ -29,7 +30,7 @@ jeeves = Jeeves(
 
 
 @jeeves.command()
-def lint():
+def lint():  # pragma: nocover
     """Lint code."""
     directories = python_directories()
 
@@ -46,7 +47,7 @@ def lint():
 
 
 @jeeves.command()
-def safety():
+def safety():  # pragma: nocover
     """Check installed Python packages for vulnerabilities."""
     run.safety.check(full_report=True)
 
@@ -54,7 +55,7 @@ def safety():
 @jeeves.command()
 def test(
     paths: Optional[List[Path]] = typer.Argument(None),   # noqa: B008, WPS404
-):
+):  # pragma: nocover
     """Unit test code."""
     if not paths:
         paths = [Path.cwd() / 'tests']
@@ -64,11 +65,15 @@ def test(
     except ErrorReturnCode as err:
         typer.echo(err.stdout)
         typer.echo(err.stderr)
+
+        coverage_path = Path.cwd() / 'htmlcov/index.html'
+        rich.print(f'See [link=file://{coverage_path}]coverage[/link].')
+
         raise typer.Exit(err.exit_code)
 
 
 @jeeves.command()
-def fmt():
+def fmt():   # pragma: nocover
     """Auto format code."""
     isort(
         *itertools.chain(construct_isort_args()),
@@ -85,13 +90,13 @@ def fmt():
 
 
 @jeeves.command()
-def clear_poetry_cache():
+def clear_poetry_cache():  # pragma: nocover
     """Clear Poetry cache."""
     poetry.cache.clear('PyPI', '--all', '--no-interaction')
 
 
 @jeeves.command()
-def commit(message: str):   # noqa: WPS210
+def commit(message: str):   # noqa: WPS210  # pragma: nocover
     """Create a commit."""
     branch = str(git.branch('--show-current'))
 

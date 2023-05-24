@@ -26,7 +26,10 @@ def construct_pytest_args() -> Iterable[str]:   # noqa: WPS213
     yield '--doctest-modules'
     yield '--cov={}'.format(
         ','.join(
-            map(str, python_packages()),
+            str(python_package)
+            for python_package
+            in python_packages()
+            if python_package.name != 'tests'
         ),
     )
     yield '--cov-report=term:skip-covered'

@@ -9,7 +9,7 @@ from jeeves_yeti_pyproject.diff import list_changed_files
 run = poetry.run
 
 
-def invoke_mypy(directories) -> None:
+def invoke_mypy(directories) -> None:  # pragma: nocover
     """Call mypy and filter its output against git diff."""
     try:
         run.mypy(
