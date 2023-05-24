@@ -17,7 +17,9 @@ def list_changed_files() -> List[str]:
     )
 
 
-def changed_and_existing_files(paths: List[str]) -> List[str]: # pragma: nocover
+def changed_and_existing_files(
+    paths: List[str],
+) -> List[str]:   # pragma: nocover
     """Files that are in diff and exist."""
     return [
         path

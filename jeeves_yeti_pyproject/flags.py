@@ -4,7 +4,7 @@ from typing import Iterable, Tuple, Union
 from jeeves_yeti_pyproject.files_and_directories import python_packages
 
 CLIValue = Union[str, int, Path]
-CLIParameter = Union[str, Tuple[str, CLIValue]]
+CLIParameter = Union[str, int, Tuple[str, CLIValue]]
 
 
 LINE_LENGTH = 80
@@ -27,8 +27,7 @@ def construct_pytest_args() -> Iterable[str]:   # noqa: WPS213
     yield '--cov={}'.format(
         ','.join(
             str(python_package)
-            for python_package
-            in python_packages()
+            for python_package in python_packages()
             if python_package.name != 'tests'
         ),
     )
@@ -50,5 +49,9 @@ def construct_isort_args() -> Iterable[CLIParameter]:
     """
     yield '--trailing-comma'
     yield '--use-parentheses'
-    yield '--multi-line', 'VERTICAL_HANGING_INDENT'
-    yield '--line-length', LINE_LENGTH
+
+    yield '--multi-line'
+    yield 'VERTICAL_HANGING_INDENT'
+
+    yield '--line-length'
+    yield LINE_LENGTH

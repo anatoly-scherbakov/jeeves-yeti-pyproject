@@ -1,9 +1,9 @@
-import rich
 import itertools
 import re
 from pathlib import Path
 from typing import List, Optional
 
+import rich
 import typer
 from jeeves_shell import Jeeves
 from sh import ErrorReturnCode, add_trailing_comma, git, isort, poetry
