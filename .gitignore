@@ -215,3 +215,4 @@ fabric.properties
 
 .idea/
 .flakeheaven_cache
+.python-version

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jeeves-yeti-pyproject"
-version = "0.2.19"
+version = "0.2.20"
 description = "Opinionated Jeeves plugin for Python projects."
 authors = ["Anatoly Scherbakov <altaisoft@gmail.com>"]
 readme = "README.md"
@@ -12,7 +12,7 @@ pyproject = "jeeves_yeti_pyproject:jeeves"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-jeeves-shell = {version = "^2.1.10", extras = ["all"]}
+jeeves-shell = {version = ">2.1.10", extras = ["all"]}
 
 mypy = "^0.910"
 
