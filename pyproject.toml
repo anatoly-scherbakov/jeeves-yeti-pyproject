@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jeeves-yeti-pyproject"
-version = "0.2.21"
+version = "0.2.22"
 description = "Opinionated Jeeves plugin for Python projects."
 authors = ["Anatoly Scherbakov <altaisoft@gmail.com>"]
 readme = "README.md"
@@ -18,8 +18,8 @@ mypy = "^0.910"
 
 safety = "^1.10"
 
-pytest = "^6.2"
-pytest-cov = "^2.12"
+pytest = "^7.4.2"
+pytest-cov = "^4.1.0"
 pytest-randomly = "^3.8"
 wemake-python-styleguide = "^0.17.0"
 flakeheaven = "^3.2.1"
