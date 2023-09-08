@@ -1,7 +1,7 @@
 import itertools
 import re
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Annotated
 
 import rich
 import typer
@@ -54,14 +54,19 @@ def safety():  # pragma: nocover
 
 @jeeves.command()
 def test(
-    paths: Optional[List[Path]] = typer.Argument(None),   # noqa: B008, WPS404
+    paths: Annotated[
+        Optional[List[Path]],
+        typer.Argument(),
+    ] = None,
 ):  # pragma: nocover
     """Unit test code."""
+    is_granular = True
     if not paths:
+        is_granular = False
         paths = [Path.cwd() / 'tests']
 
     try:
-        run('pytest', *construct_pytest_args(), *paths)
+        run('pytest', *construct_pytest_args(is_granular=is_granular), *paths)
     except ErrorReturnCode as err:
         typer.echo(err.stdout)
         typer.echo(err.stderr)

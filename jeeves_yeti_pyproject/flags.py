@@ -10,7 +10,7 @@ CLIParameter = Union[str, int, Tuple[str, CLIValue]]
 LINE_LENGTH = 80
 
 
-def construct_pytest_args() -> Iterable[str]:   # noqa: WPS213
+def construct_pytest_args(is_granular: bool) -> Iterable[str]:   # noqa: WPS213
     """
     Args for pytest.
 
@@ -24,18 +24,21 @@ def construct_pytest_args() -> Iterable[str]:   # noqa: WPS213
     yield '--strict-config'
     yield '--tb=short'
     yield '--doctest-modules'
-    yield '--cov={}'.format(
-        ','.join(
-            str(python_package)
-            for python_package in python_packages()
-            if python_package.name != 'tests'
-        ),
-    )
-    yield '--cov-report=term:skip-covered'
-    yield '--cov-report=html'
-    yield '--cov-report=xml'
-    yield '--cov-branch'
-    yield '--cov-fail-under=100'
+
+    if not is_granular:
+        # We only measure coverage if the whole test suite is being executed.
+        yield '--cov={}'.format(
+            ','.join(
+                str(python_package)
+                for python_package in python_packages()
+                if python_package.name != 'tests'
+            ),
+        )
+        yield '--cov-report=term:skip-covered'
+        yield '--cov-report=html'
+        yield '--cov-report=xml'
+        yield '--cov-branch'
+        yield '--cov-fail-under=100'
 
 
 def construct_isort_args() -> Iterable[CLIParameter]:

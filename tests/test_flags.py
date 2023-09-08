@@ -10,7 +10,8 @@ def test_isort():
 
 
 def test_pytest():
-    assert list(construct_pytest_args())
+    assert list(construct_pytest_args(is_granular=True))
+    assert list(construct_pytest_args(is_granular=False))
 
 
 def test_mypy():

@@ -20,6 +20,7 @@ enable_extensions = "G"
 
 accept_encodings = "utf-8"
 max_complexity = 6
+max_annotation_complexity = 4
 max_line_length = 80
 
 ignore = "D100, D104, D401, W504, RST303, RST304, DAR103, DAR203"
@@ -88,6 +89,10 @@ pyflakes = ["+*"]
     # Found class without a base class
     # Nikita Sobolev wants us to always `SubclassFrom(object)` but we will blatantly disobey.
     "-WPS306",
+
+    # Found multi-line function type annotation
+    # This is perfectly fine with complex Annotated[] expressions, especially in Typer or FastAPI.
+    "-WPS320",
 ]
 
 

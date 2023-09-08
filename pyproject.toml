@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jeeves-yeti-pyproject"
-version = "0.2.22"
+version = "0.2.23"
 description = "Opinionated Jeeves plugin for Python projects."
 authors = ["Anatoly Scherbakov <altaisoft@gmail.com>"]
 readme = "README.md"
@@ -39,7 +39,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 
-[tool.flakehell.exceptions."**/flags.py"]
+[tool.flakeheaven.exceptions."**/flags.py"]
 wemake-python-styleguide = [
     # Found consecutive `yield` expressions
     "-WPS354",
