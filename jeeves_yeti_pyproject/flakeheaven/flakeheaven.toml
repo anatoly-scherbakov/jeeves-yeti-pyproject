@@ -93,6 +93,10 @@ pyflakes = ["+*"]
     # Found multi-line function type annotation
     # This is perfectly fine with complex Annotated[] expressions, especially in Typer or FastAPI.
     "-WPS320",
+
+    # Found an iterable unpacking to list.
+    # This is because I like `[x] = …` better than `(x, ) = …`.
+    "-WPS359",
 ]
 
 
