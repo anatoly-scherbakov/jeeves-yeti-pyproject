@@ -10,8 +10,8 @@ from sh import ErrorReturnCode, add_trailing_comma, git, isort, poetry
 
 from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.diff import (
-    changed_and_existing_files,
-    list_changed_files,
+    existing_files_only,
+    list_changed_files, python_files_only,
 )
 from jeeves_yeti_pyproject.errors import BranchNameError
 from jeeves_yeti_pyproject.files_and_directories import python_directories
@@ -85,8 +85,10 @@ def fmt():   # pragma: nocover
         '.',
     )
 
-    files_to_format = changed_and_existing_files(
-        list_changed_files(),
+    files_to_format = python_files_only(
+        existing_files_only(
+            list_changed_files(),
+        ),
     )
     add_trailing_comma(
         '--py36-plus',
