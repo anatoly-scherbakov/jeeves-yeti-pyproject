@@ -14,7 +14,7 @@ __root__ = "jeeves_yeti_pyproject:jeeves"
 python = ">=3.10,<4.0"
 jeeves-shell = {version = ">=2.3.0", extras = ["all"]}
 
-mypy = "^0.910"
+mypy = "<2.0"
 
 safety = "^1.10"
 
