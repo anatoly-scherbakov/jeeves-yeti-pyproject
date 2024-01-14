@@ -1,10 +1,8 @@
 from typing import Iterable
 
-import more_itertools
+import rich
 import typer
 from sh import ErrorReturnCode_1, poetry
-
-from jeeves_yeti_pyproject.diff import list_changed_files
 
 run = poetry.run
 
@@ -17,18 +15,8 @@ def invoke_mypy(directories) -> None:  # pragma: nocover
             *construct_mypy_flags(),
         )
     except ErrorReturnCode_1 as err:
-        changed_files = set(list_changed_files())
-
-        mypy_lines = [
-            line for line in err.stdout.decode().split('\n')
-            if more_itertools.first(line.split(':', 1)) in changed_files
-        ]
-
-        if mypy_lines:
-            for line in mypy_lines:
-                typer.echo(line)
-
-            raise typer.Exit(1)
+        rich.print(err.stdout.decode())
+        raise typer.Exit(1)
 
 
 def construct_mypy_flags() -> Iterable[str]:   # noqa: WPS213

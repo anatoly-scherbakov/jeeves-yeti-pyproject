@@ -4,7 +4,7 @@ from documented import DocumentedError
 
 
 @dataclass
-class BranchNameError(DocumentedError):
+class BranchNameError(DocumentedError):  # type: ignore
     """
     Current branch name is invalid.
 
