@@ -25,7 +25,10 @@ def construct_pytest_args(is_granular: bool) -> Iterable[str]:   # noqa: WPS213
     yield '--tb=short'
     yield '--doctest-modules'
 
-    if not is_granular:
+    if is_granular:
+        yield '-vv'
+
+    else:
         # We only measure coverage if the whole test suite is being executed.
         yield '--cov={}'.format(
             ','.join(
