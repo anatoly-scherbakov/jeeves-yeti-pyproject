@@ -14,7 +14,10 @@ from jeeves_yeti_pyproject.diff import (
     list_changed_files, python_files_only,
 )
 from jeeves_yeti_pyproject.errors import BranchNameError
-from jeeves_yeti_pyproject.files_and_directories import python_directories
+from jeeves_yeti_pyproject.files_and_directories import (
+    python_directories,
+    python_packages,
+)
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
     construct_pytest_args,
@@ -32,7 +35,7 @@ jeeves = Jeeves(
 @jeeves.command()
 def lint():  # pragma: nocover
     """Lint code."""
-    directories = python_directories()
+    directories = python_packages()
 
     invoke_mypy(directories)
 
