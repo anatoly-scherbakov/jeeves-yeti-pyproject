@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jeeves-yeti-pyproject"
-version = "0.2.30"
+version = "0.2.31"
 description = "Opinionated Jeeves plugin for Python projects."
 authors = ["Anatoly Scherbakov <altaisoft@gmail.com>"]
 readme = "README.md"
@@ -16,20 +16,19 @@ jeeves-shell = {version = ">=2.3.0", extras = ["all"]}
 
 mypy = "<2.0"
 
-safety = "^1.10"
+safety = ">=1.10"
 
-pytest = "^7.4.2"
-pytest-cov = "^4.1.0"
-pytest-randomly = "^3.8"
-wemake-python-styleguide = "^0.17.0"
-flakeheaven = "^3.2.1"
-rich = "^13.3.1"
-tomlkit = "^0.11.6"
-add-trailing-comma = "^2.4.0"
-mkdocs = "^1.4.2"
-mkdocs-material = "^9.0.3"
-mkdocs-macros-plugin = "^0.7.0"
-mkdocs-iolanta = "^0.1.0"
+pytest = ">=7.4.2"
+pytest-cov = ">=4.1.0"
+pytest-randomly = ">=3.8"
+wemake-python-styleguide = ">=0.17.0"
+flakeheaven = ">=3.2.1"
+rich = ">=13.3.1"
+tomlkit = ">=0.11.6"
+add-trailing-comma = ">=2.4.0"
+mkdocs = ">=1.4.2"
+mkdocs-material = ">=9.0.3"
+mkdocs-macros-plugin = ">=0.7.0"
 
 # For compatibility with Poetry 1.4.2
 urllib3 = "<2.0.0"
