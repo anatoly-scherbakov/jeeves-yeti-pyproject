@@ -93,10 +93,7 @@ def fmt():   # pragma: nocover
             list_changed_files(),
         ),
     )
-    add_trailing_comma(
-        '--py36-plus',
-        *files_to_format,
-    )
+    add_trailing_comma(*files_to_format)
 
 
 @jeeves.command()
