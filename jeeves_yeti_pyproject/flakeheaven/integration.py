@@ -48,4 +48,5 @@ def call(project_directory: Path):  # pragma: nocover
             )
         except ErrorReturnCode_1 as err:
             typer.echo(err.stdout)
+            typer.echo(err.stderr)
             raise typer.Exit(code=1) from err
