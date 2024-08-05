@@ -101,6 +101,10 @@ pyflakes = ["+*"]
     # Found single element destructuring
     # Same as above.
     "-WPS460",
+
+    # Found consecutive `yield` expressions
+    # These are fine, a great expressive method
+    "-WPS354",
 ]
 
 
