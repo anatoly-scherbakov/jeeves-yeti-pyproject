@@ -35,13 +35,11 @@ jeeves = Jeeves(
 @jeeves.command()
 def lint():  # pragma: nocover
     """Lint code."""
-    directories = python_packages()
-
-    invoke_mypy(directories)
-
     flakeheaven.call(
         project_directory=Path.cwd(),
     )
+
+    invoke_mypy(python_packages())
 
     poetry.check()
 
