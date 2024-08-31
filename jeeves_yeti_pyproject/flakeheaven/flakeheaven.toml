@@ -113,6 +113,10 @@ pyflakes = [
     # %s imported but unused. This happens all the time in __init__.py files.
     "-F401",
 ]
+wemake-python-styleguide = [
+    # Found wrong metadata variable: __all__
+    "-WPS410",
+]
 
 
 [tool.flakeheaven.exceptions."tests/**.py"]
