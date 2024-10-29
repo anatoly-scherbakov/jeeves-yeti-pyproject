@@ -1,35 +1,47 @@
 import itertools
+import json
 import re
 from pathlib import Path
-from typing import List, Optional, Annotated
+from typing import Annotated, Iterable, List, Optional
 
 import rich
+import sh
 import typer
 from jeeves_shell import Jeeves
-from sh import ErrorReturnCode, add_trailing_comma, git, isort, poetry
+from pydantic import TypeAdapter
+from rich.console import Console
+from rich.table import Table
+from yarl import URL
 
 from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.diff import (
     existing_files_only,
-    list_changed_files, python_files_only,
+    list_changed_files,
+    python_files_only,
 )
 from jeeves_yeti_pyproject.errors import BranchNameError
-from jeeves_yeti_pyproject.files_and_directories import (
-    python_directories,
-    python_packages,
-)
+from jeeves_yeti_pyproject.files_and_directories import python_packages
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
     construct_pytest_args,
 )
 from jeeves_yeti_pyproject.mypy import invoke_mypy
+from jeeves_yeti_pyproject.notifications import (
+    Notification,
+    SubjectType,
+    ViewPullRequest,
+)
 
-run = poetry.run
+run = sh.poetry.run
 
 jeeves = Jeeves(
     help='Manage a Python project.',
     no_args_is_help=True,
 )
+
+console = Console()
+
+gh_json = sh.gh.bake(_tty_out=False)
 
 
 @jeeves.command()
@@ -41,7 +53,7 @@ def lint():  # pragma: nocover
 
     invoke_mypy(python_packages())
 
-    poetry.check()
+    sh.poetry.check()
 
     # We do not write anything to stdout here
     run.pip.check()
@@ -68,7 +80,7 @@ def test(
 
     try:
         run('pytest', *construct_pytest_args(is_granular=is_granular), *paths)
-    except ErrorReturnCode as err:
+    except sh.ErrorReturnCode as err:
         typer.echo(err.stdout)
         typer.echo(err.stderr)
 
@@ -81,7 +93,7 @@ def test(
 @jeeves.command()
 def fmt():   # pragma: nocover
     """Auto format code."""
-    isort(
+    sh.isort(
         *itertools.chain(construct_isort_args()),
         '.',
     )
@@ -91,19 +103,19 @@ def fmt():   # pragma: nocover
             list_changed_files(),
         ),
     )
-    add_trailing_comma(*files_to_format)
+    sh.add_trailing_comma(*files_to_format)
 
 
 @jeeves.command()
 def clear_poetry_cache():  # pragma: nocover
     """Clear Poetry cache."""
-    poetry.cache.clear('PyPI', '--all', '--no-interaction')
+    sh.poetry.cache.clear('PyPI', '--all', '--no-interaction')
 
 
 @jeeves.command()
 def commit(message: str):   # noqa: WPS210  # pragma: nocover
     """Create a commit."""
-    branch = str(git.branch('--show-current'))
+    branch = str(sh.git.branch('--show-current'))
 
     match = re.match(r'issue-(?P<issue_id>\d+)-.+', branch)
     if match is None:
@@ -121,4 +133,66 @@ def commit(message: str):   # noqa: WPS210  # pragma: nocover
 
     formatted_message = f'{prefix}{message}'
     typer.echo(formatted_message)
-    git.commit('-a', '-m', formatted_message)
+    sh.git.commit('-a', '-m', formatted_message)
+
+
+def _exclude_merged_pull_requests(   # noqa: WPS210
+    notifications: list[Notification],
+) -> Iterable[Notification]:
+    for notification in notifications:
+        subject_type = notification.subject.type
+        if subject_type != SubjectType.pull_request:
+            raise NotImplementedError(
+                f'Subject type: {subject_type} not supported.',
+            )
+
+        pull_request = notification.subject
+        pull_request_id = int(URL(pull_request.url).name)
+
+        repo_specification = notification.repository.full_name
+        raw_pull_request_details = json.loads(
+            gh_json.pr.view(
+                pull_request_id,
+                repo=repo_specification,
+                json=','.join(['closed']),
+            ),
+        )
+        pull_request_details = TypeAdapter(ViewPullRequest).validate_python(
+            raw_pull_request_details,
+        )
+        if pull_request_details.closed:
+            console.print(
+                f'Notification for PR [bold]{pull_request.title}[/bold] '
+                'marked as read.',
+            )
+            gh_json.api(
+                f'/notifications/threads/{notification.id}',
+                '-F',
+                'read=true',
+                method='PATCH',
+            )
+
+        else:
+            yield notification
+
+
+@jeeves.command()
+def news():  # noqa: WPS210
+    """GitHub notifications."""   # noqa: D403
+    raw_notifications = json.loads(gh_json.api('/notifications'))
+    notifications = TypeAdapter(list[Notification]).validate_python(
+        raw_notifications,
+    )
+    notifications = list(_exclude_merged_pull_requests(notifications))
+
+    table = Table('Notification', 'Repository')
+
+    for notification in notifications:
+        pull_request = notification.subject
+        repository = notification.repository
+        table.add_row(
+            f'[link={notification.url}]{pull_request.title}[/]',
+            f'[link={repository.url}]{repository.full_name}[/]',
+        )
+
+    console.print(table)
