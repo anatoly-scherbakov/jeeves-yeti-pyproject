@@ -190,8 +190,11 @@ def news():  # noqa: WPS210
     for notification in notifications:
         pull_request = notification.subject
         repository = notification.repository
+        github_ui_url = URL(
+            pull_request.url.replace('/repos', '').replace('pulls', 'pull'),
+        ).with_host('github.com')
         table.add_row(
-            f'[link={notification.url}]{pull_request.title}[/]',
+            f'[link={github_ui_url}]{pull_request.title}[/]',
             f'[link={repository.url}]{repository.full_name}[/]',
         )
 
