@@ -105,6 +105,9 @@ pyflakes = ["+*"]
     # Found consecutive `yield` expressions
     # These are fine, a great expressive method
     "-WPS354",
+
+    # I happen to like implicit string concatenation!
+    "-WPS326",
 ]
 
 
