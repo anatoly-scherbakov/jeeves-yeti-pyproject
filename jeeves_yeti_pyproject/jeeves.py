@@ -136,44 +136,44 @@ def commit(message: str):   # noqa: WPS210  # pragma: nocover
     sh.git.commit('-a', '-m', formatted_message)
 
 
+def _notification_for_pull_request_still_relevant(notification) -> bool:
+    pull_request = notification.subject
+    pull_request_id = int(URL(pull_request.url).name)
+
+    repo_specification = notification.repository.full_name
+    raw_pull_request_details = json.loads(
+        gh_json.pr.view(
+            pull_request_id,
+            repo=repo_specification,
+            json=','.join(['closed']),
+        ),
+    )
+    pull_request_details = TypeAdapter(ViewPullRequest).validate_python(
+        raw_pull_request_details,
+    )
+    if pull_request_details.closed:
+        gh_json.api(
+            f'/notifications/threads/{notification.id}',
+            '-F',
+            'read=true',
+            method='PATCH',
+        )
+        return False
+
+    return True
+
+
 def _exclude_merged_pull_requests(   # noqa: WPS210
     notifications: list[Notification],
 ) -> Iterable[Notification]:
     for notification in notifications:
-        subject_type = notification.subject.type
-        if subject_type != SubjectType.pull_request:
-            raise NotImplementedError(
-                f'Subject type: {subject_type} not supported.',
-            )
+        if (
+            notification.subject.type == SubjectType.pull_request
+            and not _notification_for_pull_request_still_relevant(notification)
+        ):
+            continue
 
-        pull_request = notification.subject
-        pull_request_id = int(URL(pull_request.url).name)
-
-        repo_specification = notification.repository.full_name
-        raw_pull_request_details = json.loads(
-            gh_json.pr.view(
-                pull_request_id,
-                repo=repo_specification,
-                json=','.join(['closed']),
-            ),
-        )
-        pull_request_details = TypeAdapter(ViewPullRequest).validate_python(
-            raw_pull_request_details,
-        )
-        if pull_request_details.closed:
-            console.print(
-                f'Notification for PR [bold]{pull_request.title}[/bold] '
-                'marked as read.',
-            )
-            gh_json.api(
-                f'/notifications/threads/{notification.id}',
-                '-F',
-                'read=true',
-                method='PATCH',
-            )
-
-        else:
-            yield notification
+        yield notification
 
 
 @jeeves.command()
