@@ -66,7 +66,12 @@ flake8-isort = [
 ]
 mccabe = ["+*"]
 "pep8-naming" = ["+*"]
-pycodestyle = ["+*"]
+pycodestyle = [
+    "+*",
+
+    # line break before binary operator
+    "-W503",
+]
 pyflakes = ["+*"]
 "wemake-python-styleguide" = [
     "+*",
@@ -108,6 +113,9 @@ pyflakes = ["+*"]
 
     # I happen to like implicit string concatenation!
     "-WPS326",
+
+    # Found multiline conditions
+    "-WPS337",
 ]
 
 
