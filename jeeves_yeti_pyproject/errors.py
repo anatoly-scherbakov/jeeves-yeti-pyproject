@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from documented import DocumentedError
+from documented import DocumentedError, Documented
 
 
 @dataclass
@@ -17,3 +17,13 @@ class BranchNameError(DocumentedError):  # type: ignore
     """
 
     branch: str
+
+
+class FlakeheavenIncompatible(Documented):
+    """
+    ⚠️ Skipping `flakeheaven` due to compatibility issues with Python 3.12+.
+
+    See [flakeheaven/flakeheaven#173]({self.issue_url}).
+    """
+
+    issue_url = 'https://github.com/flakeheaven/flakeheaven/issues/173'

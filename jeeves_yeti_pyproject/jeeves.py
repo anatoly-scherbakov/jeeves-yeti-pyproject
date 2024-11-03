@@ -1,6 +1,8 @@
 import itertools
 import json
+import logging
 import re
+import sys
 from pathlib import Path
 from typing import Annotated, Iterable, List, Optional
 
@@ -19,7 +21,10 @@ from jeeves_yeti_pyproject.diff import (
     list_changed_files,
     python_files_only,
 )
-from jeeves_yeti_pyproject.errors import BranchNameError
+from jeeves_yeti_pyproject.errors import (
+    BranchNameError,
+    FlakeheavenIncompatible,
+)
 from jeeves_yeti_pyproject.files_and_directories import python_packages
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
@@ -31,6 +36,8 @@ from jeeves_yeti_pyproject.notifications import (
     SubjectType,
     ViewPullRequest,
 )
+
+logger = logging.getLogger(__name__)
 
 run = sh.poetry.run
 
@@ -47,9 +54,15 @@ gh_json = sh.gh.bake(_tty_out=False)
 @jeeves.command()
 def lint():  # pragma: nocover
     """Lint code."""
-    flakeheaven.call(
-        project_directory=Path.cwd(),
-    )
+    if sys.version_info >= (3, 12):
+        console.print(
+            FlakeheavenIncompatible(),
+            style='yellow',
+        )
+    else:
+        flakeheaven.call(
+            project_directory=Path.cwd(),
+        )
 
     invoke_mypy(python_packages())
 

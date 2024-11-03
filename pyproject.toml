@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "jeeves-yeti-pyproject"
-version = "0.2.39"
+version = "0.2.40"
 description = "Opinionated Jeeves plugin for Python projects."
 authors = ["Anatoly Scherbakov <altaisoft@gmail.com>"]
 readme = "README.md"
@@ -11,8 +11,7 @@ __root__ = "jeeves_yeti_pyproject:jeeves"
 
 
 [tool.poetry.dependencies]
-# flakeheaven is incompatible with Python 3.12 ☹
-python = ">=3.10,<3.12"
+python = ">=3.10,<4.0"
 jeeves-shell = {version = ">=2.3.0", extras = ["all"]}
 
 mypy = "<2.0"
