@@ -164,16 +164,20 @@ def _notification_for_pull_request_still_relevant(notification) -> bool:
     pull_request_details = TypeAdapter(ViewPullRequest).validate_python(
         raw_pull_request_details,
     )
-    if pull_request_details.closed:
-        gh_json.api(
-            f'/notifications/threads/{notification.id}',
-            '-F',
-            'read=true',
-            method='PATCH',
-        )
-        return False
+    return not pull_request_details.closed
 
-    return True
+
+def _mark_notification_as_read(notification: Notification):
+    console.print(
+        f'Notification has been auto marked as read: {notification}',
+        style='yellow',
+    )
+    gh_json.api(
+        f'/notifications/threads/{notification.id}',
+        '-F',
+        'read=true',
+        method='PATCH',
+    )
 
 
 def _exclude_merged_pull_requests(   # noqa: WPS210
@@ -184,9 +188,13 @@ def _exclude_merged_pull_requests(   # noqa: WPS210
             notification.subject.type == SubjectType.pull_request
             and not _notification_for_pull_request_still_relevant(notification)
         ):
-            continue
+            _mark_notification_as_read(notification)
 
-        yield notification
+        elif notification.subject.type == SubjectType.release:
+            _mark_notification_as_read(notification)
+
+        else:
+            yield notification
 
 
 @jeeves.command()
