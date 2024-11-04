@@ -169,7 +169,8 @@ def _notification_for_pull_request_still_relevant(notification) -> bool:
 
 def _mark_notification_as_read(notification: Notification):
     console.print(
-        f'Notification has been auto marked as read: {notification}',
+        'Notification has been auto marked as read: '
+        f'[b]{notification.subject.title}[/b]',
         style='yellow',
     )
     gh_json.api(
