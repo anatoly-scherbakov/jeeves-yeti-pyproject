@@ -126,8 +126,10 @@ def clear_poetry_cache():  # pragma: nocover
 
 
 @jeeves.command()
-def commit(message: str):   # noqa: WPS210  # pragma: nocover
+def commit(words: list[str]):   # noqa: WPS210  # pragma: nocover
     """Create a commit."""
+    message = ' '.join(words)
+
     branch = str(sh.git.branch('--show-current'))
 
     match = re.match(r'(?P<issue_id>\d+)-.+', branch)
