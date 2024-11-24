@@ -1,0 +1,54 @@
+name: test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11']
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install poetry
+      run: |
+        pip install 'poetry<1.5'
+
+        # Adding `poetry` to `$PATH`:
+        echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+
+    - name: Set up cache
+      uses: actions/cache@v2
+      with:
+        path: .venv
+        key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
+    - name: Install dependencies
+      run: |
+        poetry config virtualenvs.in-project true
+        poetry run pip install -U pip jeeves-yeti-pyproject
+        poetry install
+
+    - name: Lint
+      run: poetry run j lint
+
+    - name: Test
+      run: poetry run j test
+
+    # Upload coverage to codecov: https://codecov.io/
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
