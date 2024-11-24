@@ -11,7 +11,7 @@ class BranchNameError(DocumentedError):  # type: ignore
         Branch: {self.branch}
         Required format:
 
-            issue-ISSUE_ID-some_description-or_other
+            ISSUE_ID-some_description-or_other
 
         where ISSUE_ID is an integer.
     """

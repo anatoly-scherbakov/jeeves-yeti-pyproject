@@ -130,7 +130,7 @@ def commit(message: str):   # noqa: WPS210  # pragma: nocover
     """Create a commit."""
     branch = str(sh.git.branch('--show-current'))
 
-    match = re.match(r'issue-(?P<issue_id>\d+)-.+', branch)
+    match = re.match(r'(?P<issue_id>\d+)-.+', branch)
     if match is None:
         raise BranchNameError(branch=branch)
     else:
