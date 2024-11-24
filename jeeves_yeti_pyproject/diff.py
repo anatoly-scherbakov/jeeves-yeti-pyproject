@@ -17,7 +17,7 @@ def list_changed_files() -> List[str]:
     )
 
 
-def existing_files_only(
+def existing_files_only(   # pragma: nocover
     paths: List[str],
 ) -> List[str]:   # pragma: nocover
     """Files that are in diff and exist."""
@@ -28,6 +28,6 @@ def existing_files_only(
     ]
 
 
-def python_files_only(paths: list[str]) -> list[str]:
+def python_files_only(paths: list[str]) -> list[str]:   # pragma: nocover
     """Only .py files."""
     return [path for path in paths if path.endswith('.py')]

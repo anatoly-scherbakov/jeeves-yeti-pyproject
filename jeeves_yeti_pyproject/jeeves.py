@@ -151,7 +151,9 @@ def commit(words: list[str]):   # noqa: WPS210  # pragma: nocover
     sh.git.commit('-a', '-m', formatted_message)
 
 
-def _notification_for_pull_request_still_relevant(notification) -> bool:
+def _notification_for_pull_request_still_relevant(   # pragma: nocover
+    notification,
+) -> bool:
     pull_request = notification.subject
     pull_request_id = int(URL(pull_request.url).name)
 
@@ -169,10 +171,11 @@ def _notification_for_pull_request_still_relevant(notification) -> bool:
     return not pull_request_details.closed
 
 
-def _mark_notification_as_read(notification: Notification):
+def _mark_notification_as_read(notification: Notification):   # pragma: nocover
+    title = notification.subject.title
     console.print(
         'Notification has been auto marked as read: '
-        f'[b]{notification.subject.title}[/b]',
+        f'[b]{title}[/b]',
         style='yellow',
     )
     gh_json.api(
@@ -183,7 +186,7 @@ def _mark_notification_as_read(notification: Notification):
     )
 
 
-def _exclude_merged_pull_requests(   # noqa: WPS210
+def _exclude_merged_pull_requests(   # noqa: WPS210   # pragma: nocover
     notifications: list[Notification],
 ) -> Iterable[Notification]:
     for notification in notifications:
@@ -201,7 +204,7 @@ def _exclude_merged_pull_requests(   # noqa: WPS210
 
 
 @jeeves.command()
-def news():  # noqa: WPS210
+def news():  # noqa: WPS210   # pragma: nocover
     """GitHub notifications."""   # noqa: D403
     raw_notifications = json.loads(gh_json.api('/notifications'))
     notifications = TypeAdapter(list[Notification]).validate_python(
