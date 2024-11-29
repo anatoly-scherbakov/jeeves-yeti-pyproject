@@ -220,9 +220,12 @@ def news():  # noqa: WPS210   # pragma: nocover
         github_ui_url = URL(
             pull_request.url.replace('/repos', '').replace('pulls', 'pull'),
         ).with_host('github.com')
+        repository_url = URL(
+            repository.url.replace('/repos', ''),
+        ).with_host('github.com')
         table.add_row(
             f'[link={github_ui_url}]{pull_request.title}[/]',
-            f'[link={repository.url}]{repository.full_name}[/]',
+            f'[link={repository_url}]{repository.full_name}[/]',
         )
 
     console.print(table)
