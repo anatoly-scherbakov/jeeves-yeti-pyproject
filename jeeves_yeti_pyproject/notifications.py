@@ -25,6 +25,7 @@ class SubjectType(StrEnum):
     pull_request = 'PullRequest'
     issue = 'Issue'
     release = 'Release'
+    commit = 'Commit'
 
 
 class RepositoryOwnerType(StrEnum):
