@@ -126,8 +126,18 @@ def clear_poetry_cache():  # pragma: nocover
 
 
 @jeeves.command()
-def commit(words: list[str]):   # noqa: WPS210  # pragma: nocover
-    """Create a commit."""
+def commit(   # noqa: WPS210  # pragma: nocover
+    words: list[str],
+    add: Annotated[
+        bool,
+        typer.Option(
+            ...,
+            '-a',
+            help='Add all files when committing.',
+        ),
+    ] = False,
+):
+    """Commit staged files."""
     message = ' '.join(words)
 
     branch = str(sh.git.branch('--show-current'))
@@ -148,7 +158,13 @@ def commit(words: list[str]):   # noqa: WPS210  # pragma: nocover
 
     formatted_message = f'{prefix}{message}'
     typer.echo(formatted_message)
-    sh.git.commit('-a', '-m', formatted_message)
+
+    git_commit = sh.git.commit
+
+    if add:
+        git_commit = git_commit.bake('-a')
+
+    git_commit('-m', formatted_message)
 
 
 def _notification_for_pull_request_still_relevant(   # pragma: nocover
