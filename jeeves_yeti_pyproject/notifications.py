@@ -26,6 +26,7 @@ class SubjectType(StrEnum):
     issue = 'Issue'
     release = 'Release'
     commit = 'Commit'
+    check_suite = 'CheckSuite'
 
 
 class RepositoryOwnerType(StrEnum):
@@ -39,9 +40,9 @@ class Subject(BaseModel):   # type: ignore
     """Subject of a GitHub notification: PR, Issue, or Release."""
 
     title: str
-    url: str
     latest_comment_url: str | None = None
     type: SubjectType
+    url: str | None = None
 
 
 class RepositoryOwner(BaseModel):   # type: ignore
