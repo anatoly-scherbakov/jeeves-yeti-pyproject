@@ -212,7 +212,10 @@ def _exclude_merged_pull_requests(   # noqa: WPS210   # pragma: nocover
         ):
             _mark_notification_as_read(notification)
 
-        elif notification.subject.type == SubjectType.release:
+        elif notification.subject.type in {
+            SubjectType.release,
+            SubjectType.check_suite,
+        }:
             _mark_notification_as_read(notification)
 
         else:
@@ -233,12 +236,17 @@ def news():  # noqa: WPS210   # pragma: nocover
     for notification in notifications:
         pull_request = notification.subject
         repository = notification.repository
-        github_ui_url = URL(
-            pull_request.url.replace('/repos', '').replace('pulls', 'pull'),
-        ).with_host('github.com')
+        if pull_request.url:
+            github_ui_url = URL(
+                pull_request.url.replace('/repos', '').replace('pulls', 'pull'),
+            ).with_host('github.com')
+        else:
+            github_ui_url = None
+
         repository_url = URL(
             repository.url.replace('/repos', ''),
         ).with_host('github.com')
+
         table.add_row(
             f'[link={github_ui_url}]{pull_request.title}[/]',
             f'[link={repository_url}]{repository.full_name}[/]',
