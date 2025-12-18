@@ -26,4 +26,4 @@ class FlakeheavenIncompatible(Documented):
     See [flakeheaven/flakeheaven#173]({self.issue_url}).
     """
 
-    issue_url = 'https://github.com/flakeheaven/flakeheaven/issues/173'
+    issue_url = "https://github.com/flakeheaven/flakeheaven/issues/173"
