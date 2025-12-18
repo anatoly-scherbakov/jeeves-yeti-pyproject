@@ -2,7 +2,6 @@ import itertools
 import json
 import logging
 import re
-import sys
 from pathlib import Path
 from typing import Annotated, Iterable, List, Optional
 
@@ -15,16 +14,12 @@ from rich.console import Console
 from rich.table import Table
 from yarl import URL
 
-from jeeves_yeti_pyproject import flakeheaven
 from jeeves_yeti_pyproject.diff import (
     existing_files_only,
     list_changed_files,
     python_files_only,
 )
-from jeeves_yeti_pyproject.errors import (
-    BranchNameError,
-    FlakeheavenIncompatible,
-)
+from jeeves_yeti_pyproject.errors import BranchNameError
 from jeeves_yeti_pyproject.files_and_directories import python_packages
 from jeeves_yeti_pyproject.flags import (
     construct_isort_args,
@@ -54,15 +49,26 @@ gh_json = sh.gh.bake(_tty_out=False)
 @jeeves.command()
 def lint():  # pragma: nocover
     """Lint code."""
-    if sys.version_info >= (3, 12):
-        console.print(
-            FlakeheavenIncompatible(),
-            style='yellow',
-        )
-    else:
-        flakeheaven.call(
-            project_directory=Path.cwd(),
-        )
+    files_to_lint = python_files_only(
+        existing_files_only(
+            list_changed_files(),
+        ),
+    )
+    if files_to_lint:
+        try:
+            run('ruff', 'check', *files_to_lint)
+        except sh.ErrorReturnCode_1 as err:
+            typer.echo(err.stdout)
+            typer.echo(err.stderr)
+            raise typer.Exit(code=1) from err
+
+        # Run flake8 with WPS rules for strict style checks
+        try:
+            run.flake8(*files_to_lint, select='WPS')
+        except sh.ErrorReturnCode_1 as err:
+            typer.echo(err.stdout)
+            typer.echo(err.stderr)
+            raise typer.Exit(code=1) from err
 
     invoke_mypy(python_packages())
 
