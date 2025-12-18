@@ -55,15 +55,6 @@ flake8-darglint = [
     # Missing "Yields" in Docstring
     "-DAR301",
 ]
-flake8-isort = [
-    # FIXME:
-    #   title: flake8-isort is not using an appropriate config
-    #   description: |
-    #     After `j fmt` properly formats the project, `j lint` will complain on isort errors. That happens because the
-    #     latter doesn't have access to the particular configuration options that `j fmt` works with. It is unclear how
-    #     to pass configuration options through flakeheaven.
-    "-*",
-]
 mccabe = ["+*"]
 "pep8-naming" = ["+*"]
 pycodestyle = [
