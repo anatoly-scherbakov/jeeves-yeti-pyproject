@@ -28,12 +28,12 @@ j
 
 * `lint`
   * Check Python typing with [`mypy`](https://mypy-lang.org),
-  * Run [`wemake-python-stylguide`](https://github.com/wemake-services/wemake-python-styleguide) against your code base;
-  * Both of these are applied **only to those files which were changed against `origin/master`** (thanks [`flakeheaven`](https://github.com/flakeheaven/flakeheaven)!), making `j lint` legacy-friendly by default
+  * Run [`ruff`](https://docs.astral.sh/ruff/) for fast linting,
+  * Run [`wemake-python-stylguide`](https://github.com/wemake-services/wemake-python-styleguide) via flake8 against your code base;
+  * All of these are applied **only to those files which were changed against `origin/master`**, making `j lint` legacy-friendly by default
 * `fmt`
-  * Add trailing commas automatically;
-  * Apply [`isort`](https://github.com/pycqa/isort);
-  * By design — no `black` here.
+  * Format code using [`ruff format`](https://docs.astral.sh/ruff/formatter/);
+  * Applied **only to those files which were changed against `origin/master`**, making `j fmt` legacy-friendly by default.
 * `test`
   * Run `pytest` against `tests` directory with coverage enabled.
 

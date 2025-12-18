@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.11']
+        python-version: ['3.12']
 
     steps:
     - uses: actions/checkout@v4
@@ -31,14 +31,13 @@ jobs:
         echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
     - name: Set up cache
-      uses: actions/cache@v2
+      uses: actions/cache@v4
       with:
         path: .venv
         key: venv-${{ matrix.python-version }}-${{ hashFiles('poetry.lock') }}
     - name: Install dependencies
       run: |
         poetry config virtualenvs.in-project true
-        poetry run pip install -U pip jeeves-yeti-pyproject
         poetry install
 
     - name: Lint

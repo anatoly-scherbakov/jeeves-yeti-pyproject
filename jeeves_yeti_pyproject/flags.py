@@ -10,7 +10,7 @@ CLIParameter = Union[str, int, Tuple[str, CLIValue]]
 LINE_LENGTH = 80
 
 
-def construct_pytest_args(is_granular: bool) -> Iterable[str]:   # noqa: WPS213
+def construct_pytest_args(is_granular: bool) -> Iterable[str]:  # noqa: WPS213
     """
     Args for pytest.
 
@@ -20,44 +20,38 @@ def construct_pytest_args(is_granular: bool) -> Iterable[str]:   # noqa: WPS213
     #   generated and will stay that way, but at least partially we should be
     #   able to override the arguments.
     """
-    yield '--strict-markers'
-    yield '--strict-config'
-    yield '--tb=short'
-    yield '--doctest-modules'
+    yield "--strict-markers"
+    yield "--strict-config"
+    yield "--tb=short"
+    yield "--doctest-modules"
 
     if is_granular:
-        yield '-vv'
+        yield "-vv"
 
     else:
         # We only measure coverage if the whole test suite is being executed.
-        yield '--cov={}'.format(
-            ','.join(
+        yield "--cov={}".format(
+            ",".join(
                 str(python_package)
                 for python_package in python_packages()
-                if python_package.name != 'tests'
+                if python_package.name != "tests"
             ),
         )
-        yield '--cov-report=term:skip-covered'
-        yield '--cov-report=html'
-        yield '--cov-report=xml'
-        yield '--cov-branch'
-        yield '--cov-fail-under=100'
+        yield "--cov-report=term:skip-covered"
+        yield "--cov-report=html"
+        yield "--cov-report=xml"
+        yield "--cov-branch"
+        yield "--cov-fail-under=100"
 
 
-def construct_isort_args() -> Iterable[CLIParameter]:
+def construct_flake8_args() -> Iterable[str]:
     """
-    Isort configuration.
+    Flake8 configuration.
 
-    https://github.com/timothycrosley/isort/wiki/isort-Settings
-    See https://github.com/timothycrosley/isort#multi-line-output-modes
-
-    Source: wemake-python-styleguide.
+    These arguments are passed directly to flake8 so they apply
+    when this plugin is used as a dependency in other projects.
     """
-    yield '--trailing-comma'
-    yield '--use-parentheses'
-
-    yield '--multi-line'
-    yield 'VERTICAL_HANGING_INDENT'
-
-    yield '--line-length'
-    yield LINE_LENGTH
+    yield "--format=wemake"
+    yield "--show-source"
+    yield "--select=WPS"
+    yield "--ignore=DAR,WPS354"

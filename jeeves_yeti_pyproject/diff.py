@@ -10,24 +10,20 @@ def list_changed_files() -> List[str]:
         filter(
             bool,
             git.diff(
-                '--name-only',
-                'origin/master',
-            ).split('\n'),
+                "--name-only",
+                "origin/master",
+            ).split("\n"),
         ),
     )
 
 
-def existing_files_only(   # pragma: nocover
+def existing_files_only(  # pragma: nocover
     paths: List[str],
-) -> List[str]:   # pragma: nocover
+) -> List[str]:  # pragma: nocover
     """Files that are in diff and exist."""
-    return [
-        path
-        for path in paths
-        if (Path.cwd() / path).exists()
-    ]
+    return [path for path in paths if (Path.cwd() / path).exists()]
 
 
-def python_files_only(paths: list[str]) -> list[str]:   # pragma: nocover
+def python_files_only(paths: list[str]) -> list[str]:  # pragma: nocover
     """Only .py files."""
-    return [path for path in paths if path.endswith('.py')]
+    return [path for path in paths if path.endswith(".py")]
