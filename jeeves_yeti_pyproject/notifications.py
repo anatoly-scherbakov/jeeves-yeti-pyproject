@@ -7,36 +7,36 @@ from pydantic import BaseModel
 class Reason(StrEnum):
     """Represents the reason for a GitHub notification."""
 
-    review_requested = 'review_requested'
-    mention = 'mention'
-    assign = 'assign'
-    author = 'author'
-    comment = 'comment'
-    ci_activity = 'ci_activity'
-    manual = 'manual'
-    state_change = 'state_change'
-    subscribed = 'subscribed'
-    team_mention = 'team_mention'
+    review_requested = "review_requested"
+    mention = "mention"
+    assign = "assign"
+    author = "author"
+    comment = "comment"
+    ci_activity = "ci_activity"
+    manual = "manual"
+    state_change = "state_change"
+    subscribed = "subscribed"
+    team_mention = "team_mention"
 
 
 class SubjectType(StrEnum):
     """Represents the type of the subject for a GitHub notification."""
 
-    pull_request = 'PullRequest'
-    issue = 'Issue'
-    release = 'Release'
-    commit = 'Commit'
-    check_suite = 'CheckSuite'
+    pull_request = "PullRequest"
+    issue = "Issue"
+    release = "Release"
+    commit = "Commit"
+    check_suite = "CheckSuite"
 
 
 class RepositoryOwnerType(StrEnum):
     """Represents the type of the owner of a GitHub repository."""
 
-    user = 'User'
-    organization = 'Organization'
+    user = "User"
+    organization = "Organization"
 
 
-class Subject(BaseModel):   # type: ignore
+class Subject(BaseModel):  # type: ignore
     """Subject of a GitHub notification: PR, Issue, or Release."""
 
     title: str
@@ -45,7 +45,7 @@ class Subject(BaseModel):   # type: ignore
     url: str | None = None
 
 
-class RepositoryOwner(BaseModel):   # type: ignore
+class RepositoryOwner(BaseModel):  # type: ignore
     """Owner of a GitHub repository, a user or an organization."""
 
     login: str
@@ -58,7 +58,7 @@ class RepositoryOwner(BaseModel):   # type: ignore
     site_admin: bool
 
 
-class Repository(BaseModel):   # type: ignore
+class Repository(BaseModel):  # type: ignore
     """Represents a GitHub repository involved in a notification."""
 
     id: int
@@ -73,7 +73,7 @@ class Repository(BaseModel):   # type: ignore
     url: str
 
 
-class Notification(BaseModel):   # type: ignore
+class Notification(BaseModel):  # type: ignore
     """GitHub notification."""
 
     id: str
@@ -87,7 +87,7 @@ class Notification(BaseModel):   # type: ignore
     subscription_url: str
 
 
-class ViewPullRequest(BaseModel):   # type: ignore
+class ViewPullRequest(BaseModel):  # type: ignore
     """Result of viewing the details of a PR."""
 
     closed: bool
