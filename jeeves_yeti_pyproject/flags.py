@@ -54,4 +54,4 @@ def construct_flake8_args() -> Iterable[str]:
     yield "--format=wemake"
     yield "--show-source"
     yield "--select=WPS"
-    yield "--ignore=DAR,WPS354"
+    yield "--ignore=DAR,WPS354,WPS332,WPS237"
