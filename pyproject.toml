@@ -15,7 +15,7 @@ python = ">=3.10,<4.0"
 jeeves-shell = {version = ">=2.3.0", extras = ["all"]}
 packaging = ">=25.0"
 
-mypy = "<2.0"
+mypy = "<3.0"
 
 safety = ">=1.10"
 
